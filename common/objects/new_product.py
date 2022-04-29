@@ -1,4 +1,4 @@
-from application.helpers.enums import Marketplace
+from common.helpers.enum import Marketplace
 
 
 class MarketProductStocks:

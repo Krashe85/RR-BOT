@@ -10,7 +10,7 @@ from bot.jobs.send_stock import jon_send_stock
 
 from telegram.ext import Updater, CommandHandler, JobQueue, Dispatcher
 
-from bot.commands import start, create_invite, user_registrate
+from bot.commands import start, create_invite, user_registrate, get_id
 
 
 def main() -> None:
@@ -24,6 +24,7 @@ def main() -> None:
 
     # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(CommandHandler("getid", get_id))
     dispatcher.add_handler(CommandHandler("invite", create_invite))
     dispatcher.add_handler(CommandHandler("reg", user_registrate))
     dispatcher.add_handler(CommandHandler("register", user_registrate))

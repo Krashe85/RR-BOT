@@ -22,13 +22,14 @@ def jon_send_stock(context: CallbackContext):
         except RuntimeError:
             continue
 
-        result_table = gs.create(f"Отчёт по остаткам от {datetime.datetime.now().strftime('%d-%M-%Y')}"
+        result_table = gs.create(f"Отчёт по остаткам от {datetime.datetime.now().strftime('%d.%m.%Y')}"
                                  f" для {connect_account.username}")
         result_table.share(value=None, perm_type="anyone", role="writer")
 
         for marketplace in Marketplace:
             sheet = result_table.add_worksheet(title=marketplace.value, rows=1000, cols=5)
             products = ProductProcessor.get_product_from_marketplace(connect_account, marketplace)
-            sheet.add_rows([[product.title, product.get_stock(marketplace)] for product in products])
+            sheet.append_row(["Название товара", "Остаток"])
+            sheet.append_rows([[str(product.title), str(product.get_stock(marketplace))] for product in products])
 
         chat.send_message(text=f"Привет! Я сгенерировал отчёт по остаткам товаров - {result_table.url}")
