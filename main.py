@@ -7,7 +7,6 @@ import os
 import pytz
 from bot.jobs.send_stock import jon_send_stock
 
-
 from telegram.ext import Updater, CommandHandler, JobQueue, Dispatcher
 
 from bot.commands import start, create_invite, user_registrate, get_id
@@ -29,8 +28,8 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("reg", user_registrate))
     dispatcher.add_handler(CommandHandler("register", user_registrate))
 
-    time_of_day = (datetime.datetime.now(pytz.utc) + datetime.timedelta(seconds=10)).time()
-    stocks_job = scheduler.run_daily(callback=jon_send_stock, time=time_of_day, name="Stocks")
+    time_of_day = (datetime.time(tzinfo=pytz.timezone('Europe/Moscow'), hour=11, minute=0))
+    scheduler.run_daily(callback=jon_send_stock, time=time_of_day, name="Stocks")
 
     # on non command i.e message - echo the message on Telegram
     # dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
